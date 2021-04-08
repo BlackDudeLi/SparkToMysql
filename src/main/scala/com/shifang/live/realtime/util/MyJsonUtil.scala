@@ -6,6 +6,9 @@ import org.json4s.ShortTypeHints
 import org.json4s.jackson.JsonMethods.parse
 import org.json4s.jackson.Serialization
 
+/**
+ * Json解析
+ */
 object MyJsonUtil {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("JSONParse1").setMaster("local")
