@@ -1,14 +1,16 @@
 package com.shifang.live.realtime.util
 
+import com.alibaba.fastjson.JSON
 import com.shifang.live.realtime.bean.LiveInfo
+import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 import org.json4s.ShortTypeHints
 import org.json4s.jackson.JsonMethods.parse
 import org.json4s.jackson.Serialization
 
-/**
- * Json解析
- */
+  /**
+  * json4s
+  */
 object MyJsonUtil {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf().setAppName("JSONParse1").setMaster("local")
@@ -33,6 +35,17 @@ object MyJsonUtil {
       println(c.user_id+","+c.content_id+","+c.live_id+","+c.live_number+","+c.join_time)
       // println(c.content_id)
     })
+
+    /**
+     * fastJson
+     */
+    val userIds: RDD[Int] = input.map(obj => {
+      val live = JSON.parseObject[LiveInfo](obj, classOf[LiveInfo])
+      live.user_id
+      live.content_id
+      live.live_number
+    })
+    userIds.foreach(println)
   }
 
 }
